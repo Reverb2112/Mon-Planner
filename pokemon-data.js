@@ -231,26 +231,74 @@ const POKEMON_DATA = {
         stats: { hp: 90, attack: 100, defense: 90, spAtk: 125, spDef: 85, speed: 90 }
     },
     // Gen 2 Pokemon
+    "chikorita": {
+        name: "Chikorita",
+        dexNumber: 152,
+        types: ["grass"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/152.png",
+        stats: { hp: 45, attack: 49, defense: 65, spAtk: 49, spDef: 65, speed: 45 },
+        evolvesTo: ["bayleef"]
+    },
+    "bayleef": {
+        name: "Bayleef",
+        dexNumber: 153,
+        types: ["grass"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/153.png",
+        stats: { hp: 60, attack: 62, defense: 80, spAtk: 63, spDef: 80, speed: 60 },
+        evolvesTo: ["meganium"]
+    },
+    "meganium": {
+        name: "Meganium",
+        dexNumber: 154,
+        types: ["grass"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/154.png",
+        stats: { hp: 80, attack: 82, defense: 100, spAtk: 83, spDef: 100, speed: 80 }
+    },
     "cyndaquil": {
         name: "Cyndaquil",
         dexNumber: 155,
         types: ["fire"],
         sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/155.png",
-        stats: { hp: 39, attack: 52, defense: 43, spAtk: 60, spDef: 50, speed: 65 }
+        stats: { hp: 39, attack: 52, defense: 43, spAtk: 60, spDef: 50, speed: 65 },
+        evolvesTo: ["quilava"]
+    },
+    "quilava": {
+        name: "Quilava",
+        dexNumber: 156,
+        types: ["fire"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/156.png",
+        stats: { hp: 58, attack: 64, defense: 58, spAtk: 80, spDef: 65, speed: 80 },
+        evolvesTo: ["typhlosion"]
+    },
+    "typhlosion": {
+        name: "Typhlosion",
+        dexNumber: 157,
+        types: ["fire"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/157.png",
+        stats: { hp: 78, attack: 84, defense: 78, spAtk: 109, spDef: 85, speed: 100 }
     },
     "totodile": {
         name: "Totodile",
         dexNumber: 158,
         types: ["water"],
         sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/158.png",
-        stats: { hp: 50, attack: 65, defense: 64, spAtk: 44, spDef: 48, speed: 43 }
+        stats: { hp: 50, attack: 65, defense: 64, spAtk: 44, spDef: 48, speed: 43 },
+        evolvesTo: ["croconaw"]
     },
-    "chikorita": {
-        name: "Chikorita",
-        dexNumber: 152,
-        types: ["grass"],
-        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/152.png",
-        stats: { hp: 45, attack: 49, defense: 65, spAtk: 49, spDef: 65, speed: 45 }
+    "croconaw": {
+        name: "Croconaw",
+        dexNumber: 159,
+        types: ["water"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/159.png",
+        stats: { hp: 65, attack: 80, defense: 80, spAtk: 59, spDef: 63, speed: 58 },
+        evolvesTo: ["feraligatr"]
+    },
+    "feraligatr": {
+        name: "Feraligatr",
+        dexNumber: 160,
+        types: ["water"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/160.png",
+        stats: { hp: 85, attack: 105, defense: 100, spAtk: 79, spDef: 83, speed: 78 }
     },
     // Gen 3 Pokemon
     "treecko": {
@@ -651,7 +699,46 @@ const GAME_DATA = {
             { id: 4, name: "Karen", type: "dark", icon: "🌑" },
             { id: 5, name: "Lance", type: "champion", icon: "👑" }
         ],
-        encounters: {}
+        encounters: {
+            0: [
+                { pokemon: "chikorita", location: "Starter Choice", method: "Starter" },
+                { pokemon: "bayleef", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "meganium", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "cyndaquil", location: "Starter Choice", method: "Starter" },
+                { pokemon: "quilava", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "typhlosion", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "totodile", location: "Starter Choice", method: "Starter" },
+                { pokemon: "croconaw", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "feraligatr", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "pidgey", location: "Routes 29-31", method: "Grass" },
+                { pokemon: "rattata", location: "Routes 29-30", method: "Grass" }
+            ],
+            1: [
+                { pokemon: "geodude", location: "Dark Cave", method: "Cave" },
+                { pokemon: "onix", location: "Dark Cave", method: "Cave" }
+            ],
+            2: [
+                { pokemon: "abra", location: "Route 34", method: "Grass" },
+                { pokemon: "drowzee", location: "Route 34", method: "Grass" }
+            ],
+            3: [
+                { pokemon: "gastly", location: "Sprout Tower", method: "Tower" },
+                { pokemon: "eevee", location: "Goldenrod City", method: "Gift" }
+            ],
+            4: [
+                { pokemon: "machop", location: "Mt. Mortar", method: "Cave" }
+            ],
+            5: [
+                { pokemon: "tentacool", location: "Routes 40-41", method: "Surf" },
+                { pokemon: "lapras", location: "Union Cave", method: "Event" }
+            ],
+            6: [
+                { pokemon: "snorlax", location: "Route 11", method: "Event" }
+            ],
+            7: [
+                { pokemon: "dratini", location: "Dragon's Den", method: "Fishing" }
+            ]
+        }
     },
     "ruby-sapphire": {
         name: "Ruby/Sapphire",
@@ -673,7 +760,36 @@ const GAME_DATA = {
             { id: 4, name: "Drake", type: "dragon", icon: "🐉" },
             { id: 5, name: "Wallace/Steven", type: "champion", icon: "👑" }
         ],
-        encounters: {}
+        encounters: {
+            0: [
+                { pokemon: "treecko", location: "Starter Choice", method: "Starter" },
+                { pokemon: "torchic", location: "Starter Choice", method: "Starter" },
+                { pokemon: "mudkip", location: "Starter Choice", method: "Starter" },
+                { pokemon: "pidgey", location: "Route 101", method: "Grass" },
+                { pokemon: "rattata", location: "Route 101", method: "Grass" }
+            ],
+            1: [
+                { pokemon: "geodude", location: "Granite Cave", method: "Cave" },
+                { pokemon: "abra", location: "Granite Cave", method: "Cave" },
+                { pokemon: "machop", location: "Route 112", method: "Grass" }
+            ],
+            2: [
+                { pokemon: "pikachu", location: "Safari Zone", method: "Grass" },
+                { pokemon: "magikarp", location: "Any water", method: "Fishing" },
+                { pokemon: "gyarados", location: "Evolved Form", method: "Evolution" }
+            ],
+            3: [
+                { pokemon: "voltorb", location: "New Mauville", method: "Building" }
+            ],
+            5: [
+                { pokemon: "tentacool", location: "Surfing", method: "Water" },
+                { pokemon: "lapras", location: "Event", method: "Special" }
+            ],
+            6: [
+                { pokemon: "gastly", location: "Mt. Pyre", method: "Tower" },
+                { pokemon: "dratini", location: "Safari Zone", method: "Fishing" }
+            ]
+        }
     },
     "diamond-pearl": {
         name: "Diamond/Pearl/Platinum",
@@ -737,7 +853,27 @@ const GAME_DATA = {
             0: [
                 { pokemon: "snivy", location: "Starter Choice", method: "Starter" },
                 { pokemon: "tepig", location: "Starter Choice", method: "Starter" },
-                { pokemon: "oshawott", location: "Starter Choice", method: "Starter" }
+                { pokemon: "oshawott", location: "Starter Choice", method: "Starter" },
+                { pokemon: "pidgey", location: "Route 1", method: "Grass" },
+                { pokemon: "rattata", location: "Route 1", method: "Grass" }
+            ],
+            1: [
+                { pokemon: "geodude", location: "Wellspring Cave", method: "Cave" },
+                { pokemon: "onix", location: "Wellspring Cave", method: "Cave" }
+            ],
+            2: [
+                { pokemon: "pikachu", location: "Route 5", method: "Grass" },
+                { pokemon: "eevee", location: "Castelia City", method: "Gift" }
+            ],
+            3: [
+                { pokemon: "magikarp", location: "Any water", method: "Fishing" },
+                { pokemon: "gyarados", location: "Evolved Form", method: "Evolution" }
+            ],
+            5: [
+                { pokemon: "lapras", location: "Village Bridge", method: "Event" }
+            ],
+            7: [
+                { pokemon: "dratini", location: "Dragonspiral Tower", method: "Special" }
             ]
         }
     },
@@ -765,7 +901,21 @@ const GAME_DATA = {
             0: [
                 { pokemon: "chespin", location: "Starter Choice", method: "Starter" },
                 { pokemon: "fennekin", location: "Starter Choice", method: "Starter" },
-                { pokemon: "froakie", location: "Starter Choice", method: "Starter" }
+                { pokemon: "froakie", location: "Starter Choice", method: "Starter" },
+                { pokemon: "pidgey", location: "Route 2", method: "Grass" },
+                { pokemon: "pikachu", location: "Route 3", method: "Grass" }
+            ],
+            1: [
+                { pokemon: "geodude", location: "Connecting Cave", method: "Cave" },
+                { pokemon: "onix", location: "Connecting Cave", method: "Cave" }
+            ],
+            2: [
+                { pokemon: "riolu", location: "Route 22", method: "Grass" },
+                { pokemon: "eevee", location: "Route 10", method: "Grass" }
+            ],
+            4: [
+                { pokemon: "lapras", location: "Route 12", method: "Surf" },
+                { pokemon: "snorlax", location: "Route 7", method: "Event" }
             ]
         }
     },
@@ -793,7 +943,26 @@ const GAME_DATA = {
             0: [
                 { pokemon: "rowlet", location: "Starter Choice", method: "Starter" },
                 { pokemon: "litten", location: "Starter Choice", method: "Starter" },
-                { pokemon: "popplio", location: "Starter Choice", method: "Starter" }
+                { pokemon: "popplio", location: "Starter Choice", method: "Starter" },
+                { pokemon: "pidgey", location: "Route 1", method: "Grass" },
+                { pokemon: "rattata", location: "Route 1", method: "Grass" }
+            ],
+            1: [
+                { pokemon: "geodude", location: "Route 2", method: "Grass" },
+                { pokemon: "abra", location: "Route 2", method: "Grass" }
+            ],
+            2: [
+                { pokemon: "pikachu", location: "Route 1", method: "Grass" },
+                { pokemon: "magikarp", location: "Any water", method: "Fishing" },
+                { pokemon: "gyarados", location: "Evolved Form", method: "Evolution" }
+            ],
+            4: [
+                { pokemon: "eevee", location: "Route 4", method: "Grass" },
+                { pokemon: "machop", location: "Route 8", method: "Grass" }
+            ],
+            6: [
+                { pokemon: "lapras", location: "Poni Wilds", method: "Special" },
+                { pokemon: "dratini", location: "Vast Poni Canyon", method: "Fishing" }
             ]
         }
     },
@@ -818,7 +987,30 @@ const GAME_DATA = {
             0: [
                 { pokemon: "grookey", location: "Starter Choice", method: "Starter" },
                 { pokemon: "scorbunny", location: "Starter Choice", method: "Starter" },
-                { pokemon: "sobble", location: "Starter Choice", method: "Starter" }
+                { pokemon: "sobble", location: "Starter Choice", method: "Starter" },
+                { pokemon: "pidgey", location: "Route 1", method: "Grass" },
+                { pokemon: "rattata", location: "Route 1", method: "Grass" }
+            ],
+            1: [
+                { pokemon: "geodude", location: "Galar Mine", method: "Cave" },
+                { pokemon: "onix", location: "Galar Mine", method: "Cave" }
+            ],
+            2: [
+                { pokemon: "pikachu", location: "Route 4", method: "Grass" },
+                { pokemon: "eevee", location: "Route 4", method: "Grass" }
+            ],
+            3: [
+                { pokemon: "gastly", location: "Watchtower Ruins", method: "Special" },
+                { pokemon: "machop", location: "Route 8", method: "Grass" }
+            ],
+            5: [
+                { pokemon: "lapras", location: "Route 9", method: "Surf" },
+                { pokemon: "magikarp", location: "Any water", method: "Fishing" },
+                { pokemon: "gyarados", location: "Evolved Form", method: "Evolution" }
+            ],
+            7: [
+                { pokemon: "dratini", location: "Lake of Outrage", method: "Special" },
+                { pokemon: "snorlax", location: "Wild Area", method: "Event" }
             ]
         }
     },
@@ -846,7 +1038,32 @@ const GAME_DATA = {
             0: [
                 { pokemon: "sprigatito", location: "Starter Choice", method: "Starter" },
                 { pokemon: "fuecoco", location: "Starter Choice", method: "Starter" },
-                { pokemon: "quaxly", location: "Starter Choice", method: "Starter" }
+                { pokemon: "quaxly", location: "Starter Choice", method: "Starter" },
+                { pokemon: "pidgey", location: "South Province", method: "Grass" },
+                { pokemon: "rattata", location: "South Province", method: "Grass" }
+            ],
+            1: [
+                { pokemon: "geodude", location: "South Province", method: "Cave" },
+                { pokemon: "onix", location: "South Province", method: "Cave" }
+            ],
+            2: [
+                { pokemon: "pikachu", location: "South Province", method: "Grass" },
+                { pokemon: "eevee", location: "South Province", method: "Grass" }
+            ],
+            3: [
+                { pokemon: "magikarp", location: "Any water", method: "Fishing" },
+                { pokemon: "gyarados", location: "Evolved Form", method: "Evolution" }
+            ],
+            4: [
+                { pokemon: "machop", location: "East Province", method: "Grass" },
+                { pokemon: "gastly", location: "East Province", method: "Night" }
+            ],
+            6: [
+                { pokemon: "lapras", location: "North Province", method: "Water" },
+                { pokemon: "snorlax", location: "West Province", method: "Event" }
+            ],
+            7: [
+                { pokemon: "dratini", location: "Casseroya Lake", method: "Fishing" }
             ]
         }
     }
