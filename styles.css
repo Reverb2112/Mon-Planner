@@ -490,11 +490,114 @@ section {
     margin-top: 20px;
 }
 
+/* Team Header */
+.team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
 /* Team Count */
 #teamCount {
     font-size: 1.2rem;
     color: var(--accent);
     font-weight: normal;
+}
+
+/* Auto-Fill Button */
+.auto-fill-btn {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.auto-fill-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-hover);
+}
+
+.auto-fill-btn:active {
+    transform: translateY(0);
+}
+
+.auto-fill-btn span {
+    font-size: 1.2rem;
+}
+
+/* Evolution Options */
+.evolution-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.evolution-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.evolution-option:hover {
+    border-color: var(--accent);
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px var(--shadow-hover);
+}
+
+.evolution-stage {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    min-width: 80px;
+}
+
+.evolution-arrow {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* Pokemon card disabled state */
+.pokemon-card.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.pokemon-card.disabled::after {
+    content: "✓ On Team";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--success);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.pokemon-card.disabled:hover {
+    transform: none;
+    border-color: transparent;
 }
 
 /* Responsive Design */

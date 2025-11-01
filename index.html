@@ -69,7 +69,12 @@
 
             <!-- Current Team -->
             <section class="current-team">
-                <h2>Your Team <span id="teamCount">(0/6)</span></h2>
+                <div class="team-header">
+                    <h2>Your Team <span id="teamCount">(0/6)</span></h2>
+                    <button id="autoFillBtn" class="auto-fill-btn" style="display: none;">
+                        <span>⚡</span> Auto-Fill Team
+                    </button>
+                </div>
                 <div id="teamSlots" class="team-slots">
                     <div class="empty-slot" data-slot="0">
                         <span class="plus-icon">+</span>
@@ -131,6 +136,20 @@
                 <div class="modal-body">
                     <input type="text" id="modalSearch" placeholder="Search Pokemon..." class="modal-search">
                     <div id="modalPokemonList" class="modal-pokemon-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evolution Selection Modal -->
+        <div id="evolutionModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Choose Evolution Stage</h2>
+                    <button class="close-btn" id="closeEvolutionModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="subtitle">Select which evolution stage you want to add to your team</p>
+                    <div id="evolutionOptions" class="evolution-options"></div>
                 </div>
             </div>
         </div>

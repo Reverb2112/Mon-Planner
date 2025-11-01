@@ -5,21 +5,69 @@ const POKEMON_DATA = {
         dexNumber: 1,
         types: ["grass", "poison"],
         sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-        stats: { hp: 45, attack: 49, defense: 49, spAtk: 65, spDef: 65, speed: 45 }
+        stats: { hp: 45, attack: 49, defense: 49, spAtk: 65, spDef: 65, speed: 45 },
+        evolvesTo: ["ivysaur"]
+    },
+    "ivysaur": {
+        name: "Ivysaur",
+        dexNumber: 2,
+        types: ["grass", "poison"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
+        stats: { hp: 60, attack: 62, defense: 63, spAtk: 80, spDef: 80, speed: 60 },
+        evolvesTo: ["venusaur"]
+    },
+    "venusaur": {
+        name: "Venusaur",
+        dexNumber: 3,
+        types: ["grass", "poison"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
+        stats: { hp: 80, attack: 82, defense: 83, spAtk: 100, spDef: 100, speed: 80 }
     },
     "charmander": {
         name: "Charmander",
         dexNumber: 4,
         types: ["fire"],
         sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
-        stats: { hp: 39, attack: 52, defense: 43, spAtk: 60, spDef: 50, speed: 65 }
+        stats: { hp: 39, attack: 52, defense: 43, spAtk: 60, spDef: 50, speed: 65 },
+        evolvesTo: ["charmeleon"]
+    },
+    "charmeleon": {
+        name: "Charmeleon",
+        dexNumber: 5,
+        types: ["fire"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
+        stats: { hp: 58, attack: 64, defense: 58, spAtk: 80, spDef: 65, speed: 80 },
+        evolvesTo: ["charizard"]
+    },
+    "charizard": {
+        name: "Charizard",
+        dexNumber: 6,
+        types: ["fire", "flying"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+        stats: { hp: 78, attack: 84, defense: 78, spAtk: 109, spDef: 85, speed: 100 }
     },
     "squirtle": {
         name: "Squirtle",
         dexNumber: 7,
         types: ["water"],
         sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
-        stats: { hp: 44, attack: 48, defense: 65, spAtk: 50, spDef: 64, speed: 43 }
+        stats: { hp: 44, attack: 48, defense: 65, spAtk: 50, spDef: 64, speed: 43 },
+        evolvesTo: ["wartortle"]
+    },
+    "wartortle": {
+        name: "Wartortle",
+        dexNumber: 8,
+        types: ["water"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png",
+        stats: { hp: 59, attack: 63, defense: 80, spAtk: 65, spDef: 80, speed: 58 },
+        evolvesTo: ["blastoise"]
+    },
+    "blastoise": {
+        name: "Blastoise",
+        dexNumber: 9,
+        types: ["water"],
+        sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png",
+        stats: { hp: 79, attack: 83, defense: 100, spAtk: 85, spDef: 105, speed: 78 }
     },
     "pidgey": {
         name: "Pidgey",
@@ -492,8 +540,14 @@ const GAME_DATA = {
             // Before Brock (Badge 0)
             0: [
                 { pokemon: "bulbasaur", location: "Starter Choice", method: "Starter" },
+                { pokemon: "ivysaur", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "venusaur", location: "Evolved Form", method: "Evolution" },
                 { pokemon: "charmander", location: "Starter Choice", method: "Starter" },
+                { pokemon: "charmeleon", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "charizard", location: "Evolved Form", method: "Evolution" },
                 { pokemon: "squirtle", location: "Starter Choice", method: "Starter" },
+                { pokemon: "wartortle", location: "Evolved Form", method: "Evolution" },
+                { pokemon: "blastoise", location: "Evolved Form", method: "Evolution" },
                 { pokemon: "pidgey", location: "Routes 1-3", method: "Grass" },
                 { pokemon: "rattata", location: "Routes 1-3", method: "Grass" },
                 { pokemon: "mankey", location: "Route 22", method: "Grass (FireRed)" },

@@ -26,6 +26,10 @@ const pokemonModal = document.getElementById('pokemonModal');
 const closeModal = document.getElementById('closeModal');
 const modalSearch = document.getElementById('modalSearch');
 const modalPokemonList = document.getElementById('modalPokemonList');
+const autoFillBtn = document.getElementById('autoFillBtn');
+const evolutionModal = document.getElementById('evolutionModal');
+const closeEvolutionModal = document.getElementById('closeEvolutionModal');
+const evolutionOptions = document.getElementById('evolutionOptions');
 
 // Initialize
 init();
@@ -41,8 +45,13 @@ function init() {
     pokemonSearch.addEventListener('input', handleSearch);
     modalSearch.addEventListener('input', handleModalSearch);
     closeModal.addEventListener('click', closeModalWindow);
+    closeEvolutionModal.addEventListener('click', closeEvolutionModalWindow);
+    autoFillBtn.addEventListener('click', autoFillTeam);
     pokemonModal.addEventListener('click', (e) => {
         if (e.target === pokemonModal) closeModalWindow();
+    });
+    evolutionModal.addEventListener('click', (e) => {
+        if (e.target === evolutionModal) closeEvolutionModalWindow();
     });
 
     // Team slot click handlers
@@ -78,6 +87,7 @@ function handleGameChange(e) {
     updateAvailablePokemon();
     renderTeam();
     updateTeamCount();
+    updateAutoFillButton();
 
     gymBadgesSection.style.display = 'block';
     eliteFourSection.style.display = currentGame.eliteFour ? 'block' : 'none';
@@ -267,6 +277,88 @@ function closeModalWindow() {
     currentSlot = null;
 }
 
+// Close Evolution Modal
+function closeEvolutionModalWindow() {
+    evolutionModal.classList.remove('show');
+}
+
+// Get Evolution Chain for a Pokemon
+function getEvolutionChain(pokemonId) {
+    const chain = [pokemonId];
+    let current = pokemonId;
+
+    // Get all evolutions forward
+    while (POKEMON_DATA[current] && POKEMON_DATA[current].evolvesTo) {
+        const nextEvolution = POKEMON_DATA[current].evolvesTo[0];
+        if (nextEvolution && POKEMON_DATA[nextEvolution]) {
+            chain.push(nextEvolution);
+            current = nextEvolution;
+        } else {
+            break;
+        }
+    }
+
+    return chain;
+}
+
+// Check if Pokemon or its evolutions are on team
+function isPokemonOnTeam(pokemonId) {
+    const chain = getEvolutionChain(pokemonId);
+    return team.some(teamMember => {
+        if (!teamMember) return false;
+        const teamChain = getEvolutionChain(teamMember);
+        return chain.some(id => teamChain.includes(id));
+    });
+}
+
+// Open Evolution Selector
+function openEvolutionSelector(encounter, slotIndex) {
+    const chain = getEvolutionChain(encounter.pokemon);
+
+    // If no evolutions, just add directly
+    if (chain.length === 1) {
+        addToTeam(encounter.pokemon, slotIndex);
+        return;
+    }
+
+    currentSlot = slotIndex;
+    evolutionOptions.innerHTML = '';
+
+    const stages = ['Base', 'Stage 1', 'Stage 2'];
+
+    chain.forEach((pokemonId, index) => {
+        const pokemon = POKEMON_DATA[pokemonId];
+        if (!pokemon) return;
+
+        const option = document.createElement('div');
+        option.className = 'evolution-option';
+
+        const typeBadges = pokemon.types.map(type =>
+            `<span class="type-badge type-${type}">${type}</span>`
+        ).join('');
+
+        option.innerHTML = `
+            <span class="evolution-stage">${stages[index]}</span>
+            ${index > 0 ? '<span class="evolution-arrow">→</span>' : ''}
+            <img src="${pokemon.sprite}" alt="${pokemon.name}" class="pokemon-card-sprite" loading="lazy">
+            <div class="pokemon-card-info">
+                <div class="pokemon-card-name">${pokemon.name}</div>
+                <div class="pokemon-types">${typeBadges}</div>
+            </div>
+        `;
+
+        option.addEventListener('click', () => {
+            addToTeam(pokemonId, currentSlot);
+            closeEvolutionModalWindow();
+            closeModalWindow();
+        });
+
+        evolutionOptions.appendChild(option);
+    });
+
+    evolutionModal.classList.add('show');
+}
+
 // Render Modal Pokemon List
 function renderModalPokemonList(searchTerm = '') {
     modalPokemonList.innerHTML = '';
@@ -284,22 +376,38 @@ function renderModalPokemonList(searchTerm = '') {
     filtered.forEach(encounter => {
         const pokemon = POKEMON_DATA[encounter.pokemon];
         const card = createPokemonCard(pokemon, encounter);
-        card.addEventListener('click', () => {
-            addToTeam(encounter.pokemon, currentSlot);
-            closeModalWindow();
-        });
+
+        // Check if Pokemon or its evolutions are already on team
+        const isOnTeam = isPokemonOnTeam(encounter.pokemon);
+
+        if (isOnTeam) {
+            card.classList.add('disabled');
+            card.style.pointerEvents = 'none';
+        } else {
+            card.addEventListener('click', () => {
+                openEvolutionSelector(encounter, currentSlot);
+            });
+        }
+
         modalPokemonList.appendChild(card);
     });
 }
 
 // Add Pokemon to Team
 function addToTeam(pokemonId, slotIndex) {
-    if (team[slotIndex] === null) {
+    // Check if Pokemon or its evolutions are already on team
+    if (isPokemonOnTeam(pokemonId)) {
+        alert('This Pokemon (or its evolution) is already on your team!');
+        return;
+    }
+
+    if (team[slotIndex] === null || team[slotIndex] !== null) {
         team[slotIndex] = pokemonId;
         renderTeam();
         updateTeamCount();
         updateTypeCoverage();
         generateSuggestions();
+        updateAutoFillButton();
     }
 }
 
@@ -310,6 +418,118 @@ function removeFromTeam(slotIndex) {
     updateTeamCount();
     updateTypeCoverage();
     generateSuggestions();
+    updateAutoFillButton();
+}
+
+// Update Auto-Fill Button Visibility
+function updateAutoFillButton() {
+    const emptySlots = team.filter(p => p === null).length;
+    const hasGame = currentGame !== null;
+    const hasAvailablePokemon = availablePokemon.length > 0;
+
+    if (hasGame && emptySlots > 0 && emptySlots < 6 && hasAvailablePokemon) {
+        autoFillBtn.style.display = 'flex';
+    } else {
+        autoFillBtn.style.display = 'none';
+    }
+}
+
+// Auto-Fill Team with Suggested Pokemon
+function autoFillTeam() {
+    const emptySlotIndices = [];
+    team.forEach((pokemon, index) => {
+        if (pokemon === null) emptySlotIndices.push(index);
+    });
+
+    if (emptySlotIndices.length === 0) return;
+
+    // Get team types
+    const teamPokemon = team.filter(p => p !== null).map(id => POKEMON_DATA[id]);
+    const teamTypes = new Set();
+    teamPokemon.forEach(pokemon => {
+        pokemon.types.forEach(type => teamTypes.add(type));
+    });
+
+    // Get next gym challenge
+    const nextGym = currentGame ? currentGame.gyms.find(gym => !badges.includes(gym.id)) : null;
+    const nextElite = currentGame && currentGame.eliteFour ?
+        currentGame.eliteFour.find(member => !eliteFourDefeated.includes(member.id)) : null;
+
+    // Score available pokemon
+    const suggestions = [];
+    const teamPokemonIds = new Set(team.filter(p => p !== null));
+
+    availablePokemon.forEach(encounter => {
+        // Skip if already on team or evolution is on team
+        if (isPokemonOnTeam(encounter.pokemon)) return;
+
+        const pokemon = POKEMON_DATA[encounter.pokemon];
+        let score = 0;
+
+        // Type diversity bonus
+        const newTypes = pokemon.types.filter(type => !teamTypes.has(type));
+        if (newTypes.length > 0) {
+            score += newTypes.length * 3;
+        }
+
+        // Next battle counter bonus
+        const nextBattle = nextGym || nextElite;
+        if (nextBattle) {
+            const battleType = nextBattle.type;
+            if (battleType !== 'champion' && battleType !== 'tournament') {
+                const effectiveness = TYPE_EFFECTIVENESS[battleType];
+                const hasAdvantage = pokemon.types.some(type =>
+                    effectiveness.weakTo && effectiveness.weakTo.includes(type)
+                );
+
+                if (hasAdvantage) {
+                    score += 10; // Higher priority for next battle
+                }
+            }
+        }
+
+        // Stat bonus (favor higher total stats)
+        const totalStats = Object.values(pokemon.stats).reduce((sum, stat) => sum + stat, 0);
+        score += totalStats / 100;
+
+        if (score > 0) {
+            suggestions.push({
+                pokemon: encounter.pokemon,
+                score
+            });
+        }
+    });
+
+    // Sort by score and fill empty slots
+    suggestions.sort((a, b) => b.score - a.score);
+
+    let filled = 0;
+    for (let i = 0; i < suggestions.length && filled < emptySlotIndices.length; i++) {
+        const pokemonId = suggestions[i].pokemon;
+
+        // Double-check not already added in this auto-fill
+        if (!isPokemonOnTeam(pokemonId)) {
+            const slotIndex = emptySlotIndices[filled];
+
+            // Get the best evolution (prefer final evolution)
+            const chain = getEvolutionChain(pokemonId);
+            const bestEvolution = chain[chain.length - 1]; // Get final evolution
+
+            team[slotIndex] = bestEvolution;
+            filled++;
+        }
+    }
+
+    renderTeam();
+    updateTeamCount();
+    updateTypeCoverage();
+    generateSuggestions();
+    updateAutoFillButton();
+
+    // Show notification
+    if (filled > 0) {
+        alert(`Auto-filled ${filled} Pokemon to your team with optimal suggestions!`);
+    }
 }
 
 // Render Team
