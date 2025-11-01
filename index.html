@@ -22,10 +22,34 @@
                 <h2>Select Your Game</h2>
                 <select id="gameSelect">
                     <option value="">Choose a game...</option>
-                    <option value="red-blue">Red/Blue</option>
-                    <option value="gold-silver">Gold/Silver</option>
-                    <option value="ruby-sapphire">Ruby/Sapphire</option>
-                    <option value="firered-leafgreen">FireRed/LeafGreen</option>
+                    <optgroup label="Generation 1">
+                        <option value="red-blue">Red/Blue</option>
+                        <option value="firered-leafgreen">FireRed/LeafGreen</option>
+                    </optgroup>
+                    <optgroup label="Generation 2">
+                        <option value="gold-silver">Gold/Silver</option>
+                    </optgroup>
+                    <optgroup label="Generation 3">
+                        <option value="ruby-sapphire">Ruby/Sapphire</option>
+                    </optgroup>
+                    <optgroup label="Generation 4">
+                        <option value="diamond-pearl">Diamond/Pearl/Platinum</option>
+                    </optgroup>
+                    <optgroup label="Generation 5">
+                        <option value="black-white">Black/White</option>
+                    </optgroup>
+                    <optgroup label="Generation 6">
+                        <option value="x-y">X/Y</option>
+                    </optgroup>
+                    <optgroup label="Generation 7">
+                        <option value="sun-moon">Sun/Moon</option>
+                    </optgroup>
+                    <optgroup label="Generation 8">
+                        <option value="sword-shield">Sword/Shield</option>
+                    </optgroup>
+                    <optgroup label="Generation 9">
+                        <option value="scarlet-violet">Scarlet/Violet</option>
+                    </optgroup>
                 </select>
             </section>
 
@@ -34,6 +58,13 @@
                 <h2>Gym Badges</h2>
                 <p class="subtitle">Toggle badges you've already earned</p>
                 <div id="badgeList" class="badge-list"></div>
+            </section>
+
+            <!-- Elite Four Tracker -->
+            <section class="elite-four" id="eliteFourSection" style="display: none;">
+                <h2>Elite Four</h2>
+                <p class="subtitle">Track your progress through the Pokemon League</p>
+                <div id="eliteFourList" class="badge-list"></div>
             </section>
 
             <!-- Current Team -->

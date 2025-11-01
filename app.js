@@ -2,6 +2,7 @@
 let currentGame = null;
 let team = [null, null, null, null, null, null];
 let badges = [];
+let eliteFourDefeated = [];
 let availablePokemon = [];
 let currentSlot = null;
 
@@ -9,6 +10,8 @@ let currentSlot = null;
 const gameSelect = document.getElementById('gameSelect');
 const gymBadgesSection = document.getElementById('gymBadgesSection');
 const badgeList = document.getElementById('badgeList');
+const eliteFourSection = document.getElementById('eliteFourSection');
+const eliteFourList = document.getElementById('eliteFourList');
 const teamSlots = document.getElementById('teamSlots');
 const teamCount = document.getElementById('teamCount');
 const typeCoverageSection = document.getElementById('typeCoverageSection');
@@ -67,14 +70,17 @@ function handleGameChange(e) {
 
     currentGame = GAME_DATA[gameId];
     badges = [];
+    eliteFourDefeated = [];
     team = [null, null, null, null, null, null];
 
     renderGymBadges();
+    renderEliteFour();
     updateAvailablePokemon();
     renderTeam();
     updateTeamCount();
 
     gymBadgesSection.style.display = 'block';
+    eliteFourSection.style.display = currentGame.eliteFour ? 'block' : 'none';
     availablePokemonSection.style.display = 'block';
     typeCoverageSection.style.display = 'none';
     suggestionsSection.style.display = 'none';
@@ -122,6 +128,53 @@ function updateBadgeDisplay() {
     badgeItems.forEach((item) => {
         const gymId = parseInt(item.dataset.gymId);
         if (badges.includes(gymId)) {
+            item.classList.add('earned');
+        } else {
+            item.classList.remove('earned');
+        }
+    });
+}
+
+// Render Elite Four
+function renderEliteFour() {
+    if (!currentGame || !currentGame.eliteFour) return;
+
+    eliteFourList.innerHTML = '';
+    currentGame.eliteFour.forEach((member) => {
+        const eliteItem = document.createElement('div');
+        eliteItem.className = 'badge-item elite-item';
+        eliteItem.dataset.eliteId = member.id;
+
+        eliteItem.innerHTML = `
+            <div class="badge-icon">${member.icon}</div>
+            <div class="badge-name">${member.name}</div>
+            <div class="badge-type">${member.type}</div>
+        `;
+
+        eliteItem.addEventListener('click', () => toggleEliteFour(member.id));
+        eliteFourList.appendChild(eliteItem);
+    });
+}
+
+// Toggle Elite Four
+function toggleEliteFour(memberId) {
+    const index = eliteFourDefeated.indexOf(memberId);
+    if (index > -1) {
+        eliteFourDefeated.splice(index, 1);
+    } else {
+        eliteFourDefeated.push(memberId);
+    }
+
+    eliteFourDefeated.sort((a, b) => a - b);
+    updateEliteFourDisplay();
+}
+
+// Update Elite Four Display
+function updateEliteFourDisplay() {
+    const eliteItems = eliteFourList.querySelectorAll('.elite-item');
+    eliteItems.forEach((item) => {
+        const eliteId = parseInt(item.dataset.eliteId);
+        if (eliteFourDefeated.includes(eliteId)) {
             item.classList.add('earned');
         } else {
             item.classList.remove('earned');
@@ -188,7 +241,7 @@ function createPokemonCard(pokemon, encounter) {
 
     card.innerHTML = `
         <div class="pokemon-card-header">
-            <div class="pokemon-card-sprite">${pokemon.sprite}</div>
+            <img src="${pokemon.sprite}" alt="${pokemon.name}" class="pokemon-card-sprite" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'">
             <div class="pokemon-card-info">
                 <div class="pokemon-card-name">${pokemon.name}</div>
                 <div class="pokemon-types">${typeBadges}</div>
@@ -283,7 +336,7 @@ function renderTeam() {
 
             slot.innerHTML = `
                 <button class="remove-btn" onclick="event.stopPropagation(); removeFromTeam(${index})">×</button>
-                <div class="pokemon-sprite">${pokemon.sprite}</div>
+                <img src="${pokemon.sprite}" alt="${pokemon.name}" class="pokemon-sprite" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'">
                 <div class="pokemon-name">${pokemon.name}</div>
                 <div class="pokemon-types">${typeBadges}</div>
             `;
@@ -456,9 +509,11 @@ function resetApp() {
     currentGame = null;
     team = [null, null, null, null, null, null];
     badges = [];
+    eliteFourDefeated = [];
     availablePokemon = [];
 
     gymBadgesSection.style.display = 'none';
+    eliteFourSection.style.display = 'none';
     availablePokemonSection.style.display = 'none';
     typeCoverageSection.style.display = 'none';
     suggestionsSection.style.display = 'none';
