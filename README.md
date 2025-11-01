@@ -14,19 +14,31 @@ A web-based Pokemon team planning tool that helps you build the perfect team bas
 
 ### Team Management
 - Add 1-6 Pokemon to your team
-- Visual team slots with Pokemon sprites and types
+- Visual team slots with real Pokemon sprites from PokeAPI
 - Easy add/remove functionality
 
-### Game Support
-- Pokemon Red/Blue
-- Pokemon Gold/Silver
-- Pokemon Ruby/Sapphire
-- Pokemon FireRed/LeafGreen (fully featured with complete encounter data)
+### Game Support (Gen 1-9)
+- **Gen 1:** Red/Blue, FireRed/LeafGreen
+- **Gen 2:** Gold/Silver
+- **Gen 3:** Ruby/Sapphire
+- **Gen 4:** Diamond/Pearl/Platinum
+- **Gen 5:** Black/White
+- **Gen 6:** X/Y
+- **Gen 7:** Sun/Moon
+- **Gen 8:** Sword/Shield
+- **Gen 9:** Scarlet/Violet
+- Total: 10 games across all generations
 
 ### Gym Badge Tracking
 - Track which gym badges you've earned
 - Unlock Pokemon encounters progressively as you earn badges
 - Visual badge display with gym leader information
+
+### Elite Four Tracker
+- Track progress through the Pokemon League
+- Toggle defeated Elite Four members
+- Champion battles included
+- Available for all supported games
 
 ### Smart Team Suggestions
 - AI-powered suggestions based on:
@@ -55,31 +67,31 @@ A web-based Pokemon team planning tool that helps you build the perfect team bas
 5. **Analyze Coverage**: Check the type coverage section to identify gaps
 6. **Toggle Dark Mode**: Click the sun/moon button to switch themes
 
-## Available Pokemon (FireRed/LeafGreen)
+## Available Pokemon
 
-### Starters
-- Bulbasaur (Grass/Poison)
-- Charmander (Fire)
-- Squirtle (Water)
+### Database Size
+- **54 Pokemon** with complete stats, types, and real sprites from PokeAPI
+- All starter Pokemon from Gen 1-9
+- Popular Pokemon from each generation
+- Legendary Pokemon
 
-### Early Game (Before Brock)
-- Pidgey (Normal/Flying)
-- Rattata (Normal)
-- Mankey (Fighting)
-- Nidoran♂ (Poison)
+### Starters by Generation
+- **Gen 1:** Bulbasaur, Charmander, Squirtle
+- **Gen 2:** Chikorita, Cyndaquil, Totodile
+- **Gen 3:** Treecko, Torchic, Mudkip
+- **Gen 4:** Turtwig, Chimchar, Piplup
+- **Gen 5:** Snivy, Tepig, Oshawott
+- **Gen 6:** Chespin, Fennekin, Froakie
+- **Gen 7:** Rowlet, Litten, Popplio
+- **Gen 8:** Grookey, Scorbunny, Sobble
+- **Gen 9:** Sprigatito, Fuecoco, Quaxly
 
-### Mid Game
-- Pikachu (Electric)
-- Geodude (Rock/Ground)
-- Abra (Psychic)
-- Magikarp/Gyarados (Water/Flying)
-
-### Late Game
-- Snorlax (Normal)
-- Lapras (Water/Ice)
-- Eevee (Normal)
+### Other Popular Pokemon
+- Pikachu, Eevee, Snorlax, Lapras
 - Legendary Birds (Articuno, Zapdos, Moltres)
-- Dratini (Dragon)
+- Dragon types (Dratini, Gible)
+- Fighting types (Mankey, Machop, Riolu)
+- And many more!
 
 ## Technical Details
 
