@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Team Planner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pokemon Team Planner</h1>
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </header>
+
+        <main>
+            <!-- Game Selection -->
+            <section class="game-selection">
+                <h2>Select Your Game</h2>
+                <select id="gameSelect">
+                    <option value="">Choose a game...</option>
+                    <option value="red-blue">Red/Blue</option>
+                    <option value="gold-silver">Gold/Silver</option>
+                    <option value="ruby-sapphire">Ruby/Sapphire</option>
+                    <option value="firered-leafgreen">FireRed/LeafGreen</option>
+                </select>
+            </section>
+
+            <!-- Gym Badge Tracker -->
+            <section class="gym-badges" id="gymBadgesSection" style="display: none;">
+                <h2>Gym Badges</h2>
+                <p class="subtitle">Toggle badges you've already earned</p>
+                <div id="badgeList" class="badge-list"></div>
+            </section>
+
+            <!-- Current Team -->
+            <section class="current-team">
+                <h2>Your Team <span id="teamCount">(0/6)</span></h2>
+                <div id="teamSlots" class="team-slots">
+                    <div class="empty-slot" data-slot="0">
+                        <span class="plus-icon">+</span>
+                        <span class="slot-text">Add Pokemon</span>
+                    </div>
+                    <div class="empty-slot" data-slot="1">
+                        <span class="plus-icon">+</span>
+                        <span class="slot-text">Add Pokemon</span>
+                    </div>
+                    <div class="empty-slot" data-slot="2">
+                        <span class="plus-icon">+</span>
+                        <span class="slot-text">Add Pokemon</span>
+                    </div>
+                    <div class="empty-slot" data-slot="3">
+                        <span class="plus-icon">+</span>
+                        <span class="slot-text">Add Pokemon</span>
+                    </div>
+                    <div class="empty-slot" data-slot="4">
+                        <span class="plus-icon">+</span>
+                        <span class="slot-text">Add Pokemon</span>
+                    </div>
+                    <div class="empty-slot" data-slot="5">
+                        <span class="plus-icon">+</span>
+                        <span class="slot-text">Add Pokemon</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Type Coverage Analysis -->
+            <section class="type-coverage" id="typeCoverageSection" style="display: none;">
+                <h2>Type Coverage</h2>
+                <div id="typeCoverage" class="coverage-grid"></div>
+            </section>
+
+            <!-- Team Suggestions -->
+            <section class="suggestions" id="suggestionsSection" style="display: none;">
+                <h2>Suggested Pokemon</h2>
+                <p class="subtitle">Based on available encounters and upcoming challenges</p>
+                <div id="suggestionsList" class="suggestions-list"></div>
+            </section>
+
+            <!-- Available Pokemon -->
+            <section class="available-pokemon" id="availablePokemonSection" style="display: none;">
+                <h2>Available Pokemon</h2>
+                <div class="search-box">
+                    <input type="text" id="pokemonSearch" placeholder="Search Pokemon...">
+                </div>
+                <div id="pokemonList" class="pokemon-list"></div>
+            </section>
+        </main>
+
+        <!-- Pokemon Selection Modal -->
+        <div id="pokemonModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Select Pokemon</h2>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="modalSearch" placeholder="Search Pokemon..." class="modal-search">
+                    <div id="modalPokemonList" class="modal-pokemon-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="pokemon-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
