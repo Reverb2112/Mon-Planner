@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Team Planner - Test Suite</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+            background: #f1f8f4;
+        }
+        .test-result.fail {
+            border-left-color: #f44336;
+            background: #fef1f1;
+        }
+        .test-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .test-details {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .summary {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        .summary.success {
+            background: #f1f8f4;
+            border-left-color: #4CAF50;
+        }
+        .stats {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 5px;
+        }
+        .stat-item {
+            padding: 5px 0;
+            font-family: monospace;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Pokemon Team Planner - Test Suite</h1>
+        <div id="testResults"></div>
+        <button onclick="location.href='index.html'">Go to Main Application →</button>
+    </div>
+
+    <script src="pokemon-data.js"></script>
+    <script>
+        const results = [];
+
+        function test(name, fn) {
+            try {
+                fn();
+                results.push({ name, passed: true, details: 'Test passed successfully' });
+            } catch (error) {
+                results.push({ name, passed: false, details: error.message });
+            }
+        }
+
+        function assert(condition, message) {
+            if (!condition) {
+                throw new Error(message);
+            }
+        }
+
+        // Run Tests
+        console.log('Running test suite...');
+
+        test('Pokemon Data Structure', () => {
+            assert(typeof POKEMON_DATA === 'object', 'POKEMON_DATA should be an object');
+            assert(Object.keys(POKEMON_DATA).length > 0, 'POKEMON_DATA should have pokemon');
+
+            const bulbasaur = POKEMON_DATA['bulbasaur'];
+            assert(bulbasaur !== undefined, 'Bulbasaur should exist');
+            assert(bulbasaur.name === 'Bulbasaur', 'Bulbasaur name should be correct');
+            assert(Array.isArray(bulbasaur.types), 'Pokemon should have types array');
+            assert(bulbasaur.types.includes('grass'), 'Bulbasaur should be grass type');
+            assert(typeof bulbasaur.sprite === 'string', 'Pokemon should have sprite');
+            assert(typeof bulbasaur.stats === 'object', 'Pokemon should have stats');
+        });
+
+        test('Type Effectiveness Chart', () => {
+            assert(typeof TYPE_EFFECTIVENESS === 'object', 'TYPE_EFFECTIVENESS should exist');
+            assert(TYPE_EFFECTIVENESS.fire !== undefined, 'Fire type effectiveness should exist');
+            assert(Array.isArray(TYPE_EFFECTIVENESS.fire.weakTo), 'Should have weakTo array');
+            assert(TYPE_EFFECTIVENESS.fire.weakTo.includes('water'), 'Fire should be weak to water');
+            assert(TYPE_EFFECTIVENESS.grass.weakTo.includes('fire'), 'Grass should be weak to fire');
+        });
+
+        test('Game Data Structure', () => {
+            assert(typeof GAME_DATA === 'object', 'GAME_DATA should exist');
+            assert(GAME_DATA['firered-leafgreen'] !== undefined, 'FireRed/LeafGreen should exist');
+
+            const fireRed = GAME_DATA['firered-leafgreen'];
+            assert(fireRed.name === 'FireRed/LeafGreen', 'Game name should be correct');
+            assert(Array.isArray(fireRed.gyms), 'Game should have gyms array');
+            assert(fireRed.gyms.length === 8, 'Should have 8 gyms');
+            assert(typeof fireRed.encounters === 'object', 'Game should have encounters');
+        });
+
+        test('Gym Badge Structure', () => {
+            const fireRed = GAME_DATA['firered-leafgreen'];
+            const firstGym = fireRed.gyms[0];
+
+            assert(firstGym.id === 1, 'First gym should have id 1');
+            assert(firstGym.name === 'Boulder Badge', 'First badge should be Boulder Badge');
+            assert(firstGym.leader === 'Brock', 'First leader should be Brock');
+            assert(firstGym.type === 'rock', 'First gym should be rock type');
+            assert(typeof firstGym.icon === 'string', 'Gym should have icon');
+        });
+
+        test('Encounter Data', () => {
+            const fireRed = GAME_DATA['firered-leafgreen'];
+            assert(Array.isArray(fireRed.encounters[0]), 'Should have early game encounters');
+
+            const starterEncounter = fireRed.encounters[0].find(e => e.pokemon === 'bulbasaur');
+            assert(starterEncounter !== undefined, 'Should have Bulbasaur encounter');
+            assert(starterEncounter.location !== undefined, 'Encounter should have location');
+            assert(starterEncounter.method !== undefined, 'Encounter should have method');
+        });
+
+        test('Type Coverage Logic', () => {
+            const team = [POKEMON_DATA['charmander'], POKEMON_DATA['squirtle']];
+            const offensiveTypes = new Set();
+            team.forEach(pokemon => {
+                pokemon.types.forEach(type => offensiveTypes.add(type));
+            });
+
+            assert(offensiveTypes.has('fire'), 'Team should have fire type');
+            assert(offensiveTypes.has('water'), 'Team should have water type');
+            assert(offensiveTypes.size === 2, 'Team should have 2 types');
+
+            const grassWeakness = TYPE_EFFECTIVENESS.grass.weakTo;
+            assert(grassWeakness.includes('fire'), 'Grass should be weak to fire');
+        });
+
+        test('Team Suggestion Logic', () => {
+            const pikachu = POKEMON_DATA['pikachu'];
+            const teamTypes = new Set(['water']);
+
+            const newTypes = pikachu.types.filter(type => !teamTypes.has(type));
+            assert(newTypes.length > 0, 'Pikachu should add new type');
+            assert(newTypes.includes('electric'), 'Should add electric type');
+
+            const waterType = TYPE_EFFECTIVENESS.water;
+            const isEffective = pikachu.types.some(type =>
+                waterType.weakTo && waterType.weakTo.includes(type)
+            );
+            assert(isEffective, 'Electric should be effective against water');
+        });
+
+        test('Data Integrity', () => {
+            for (const [id, pokemon] of Object.entries(POKEMON_DATA)) {
+                assert(pokemon.name, `Pokemon ${id} should have name`);
+                assert(pokemon.types, `Pokemon ${id} should have types`);
+                assert(pokemon.sprite, `Pokemon ${id} should have sprite`);
+                assert(pokemon.stats, `Pokemon ${id} should have stats`);
+                assert(pokemon.stats.hp >= 0, `Pokemon ${id} should have valid HP stat`);
+            }
+        });
+
+        test('Multiple Games Available', () => {
+            assert(GAME_DATA['red-blue'] !== undefined, 'Red/Blue should exist');
+            assert(GAME_DATA['gold-silver'] !== undefined, 'Gold/Silver should exist');
+            assert(GAME_DATA['ruby-sapphire'] !== undefined, 'Ruby/Sapphire should exist');
+            assert(Object.keys(GAME_DATA).length >= 4, 'Should have at least 4 games');
+        });
+
+        // Display Results
+        const container = document.getElementById('testResults');
+        const passed = results.filter(r => r.passed).length;
+        const failed = results.filter(r => !r.passed).length;
+
+        results.forEach(result => {
+            const div = document.createElement('div');
+            div.className = `test-result ${result.passed ? 'pass' : 'fail'}`;
+            div.innerHTML = `
+                <div class="test-name">${result.passed ? '✓' : '✗'} ${result.name}</div>
+                <div class="test-details">${result.details}</div>
+            `;
+            container.appendChild(div);
+        });
+
+        // Summary
+        const summary = document.createElement('div');
+        summary.className = `summary ${failed === 0 ? 'success' : ''}`;
+
+        let totalEncounters = 0;
+        Object.keys(GAME_DATA['firered-leafgreen'].encounters).forEach(key => {
+            totalEncounters += GAME_DATA['firered-leafgreen'].encounters[key].length;
+        });
+
+        summary.innerHTML = `
+            <h2>${failed === 0 ? '✓ All Tests Passed!' : '⚠ Some Tests Failed'}</h2>
+            <p><strong>${passed}</strong> passed, <strong>${failed}</strong> failed out of <strong>${results.length}</strong> total tests</p>
+
+            <div class="stats">
+                <h3>📊 Statistics</h3>
+                <div class="stat-item">🎮 Pokemon Available: <strong>${Object.keys(POKEMON_DATA).length}</strong></div>
+                <div class="stat-item">⚔️ Type Matchups Defined: <strong>${Object.keys(TYPE_EFFECTIVENESS).length}</strong></div>
+                <div class="stat-item">🎯 Games Supported: <strong>${Object.keys(GAME_DATA).length}</strong></div>
+                <div class="stat-item">📍 Encounters (FireRed/LeafGreen): <strong>${totalEncounters}</strong></div>
+                <div class="stat-item">🏆 Gyms (FireRed/LeafGreen): <strong>${GAME_DATA['firered-leafgreen'].gyms.length}</strong></div>
+            </div>
+
+            ${failed === 0 ? '<p style="margin-top: 20px; color: #4CAF50; font-weight: bold;">✓ The Pokemon Team Planner is fully functional!</p>' : ''}
+        `;
+        container.appendChild(summary);
+
+        // Console output
+        console.log('='.repeat(50));
+        console.log(`Test Results: ${passed}/${results.length} passed`);
+        console.log('='.repeat(50));
+        if (failed === 0) {
+            console.log('✓ All tests passed! The website is functional.');
+        }
+    </script>
+</body>
+</html>

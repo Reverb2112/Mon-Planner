@@ -2,6 +2,14 @@
 
 A web-based Pokemon team planning tool that helps you build the perfect team based on available encounters, gym badges, and type coverage.
 
+## 🚀 Quick Start
+
+1. Open `index.html` in your web browser
+2. Or visit `demo.html` for a guided tour
+3. Or run `test.html` to verify all functionality
+
+**Live Demo:** Simply open `demo.html` in any modern web browser to see the application in action!
+
 ## Features
 
 ### Team Management

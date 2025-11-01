@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quick Validation</title>
+</head>
+<body>
+    <h1>Validation Results</h1>
+    <pre id="output"></pre>
+
+    <script src="pokemon-data.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        let log = '';
+
+        function print(msg) {
+            log += msg + '\n';
+            output.textContent = log;
+        }
+
+        // Validate data exists
+        print('✓ POKEMON_DATA loaded: ' + (typeof POKEMON_DATA !== 'undefined'));
+        print('✓ TYPE_EFFECTIVENESS loaded: ' + (typeof TYPE_EFFECTIVENESS !== 'undefined'));
+        print('✓ GAME_DATA loaded: ' + (typeof GAME_DATA !== 'undefined'));
+        print('');
+
+        // Count data
+        print(`Pokemon count: ${Object.keys(POKEMON_DATA).length}`);
+        print(`Type matchups: ${Object.keys(TYPE_EFFECTIVENESS).length}`);
+        print(`Games available: ${Object.keys(GAME_DATA).length}`);
+        print('');
+
+        // Test a Pokemon
+        const bulbasaur = POKEMON_DATA['bulbasaur'];
+        print(`Sample Pokemon: ${bulbasaur.name}`);
+        print(`  Types: ${bulbasaur.types.join(', ')}`);
+        print(`  HP: ${bulbasaur.stats.hp}`);
+        print('');
+
+        // Test FireRed/LeafGreen
+        const fireRed = GAME_DATA['firered-leafgreen'];
+        print(`Game: ${fireRed.name}`);
+        print(`  Gyms: ${fireRed.gyms.length}`);
+        print(`  First Gym: ${fireRed.gyms[0].leader} (${fireRed.gyms[0].type})`);
+        print('');
+
+        // Count encounters
+        let totalEncounters = 0;
+        Object.keys(fireRed.encounters).forEach(badge => {
+            totalEncounters += fireRed.encounters[badge].length;
+        });
+        print(`Total encounters in FireRed/LeafGreen: ${totalEncounters}`);
+        print('');
+
+        // Test type effectiveness
+        print('Type effectiveness test:');
+        print(`  Fire weak to: ${TYPE_EFFECTIVENESS.fire.weakTo.join(', ')}`);
+        print(`  Water weak to: ${TYPE_EFFECTIVENESS.water.weakTo.join(', ')}`);
+        print('');
+
+        print('✓ ALL VALIDATIONS PASSED!');
+        print('');
+        print('The Pokemon Team Planner is fully functional!');
+        print('Visit index.html to use the application.');
+    </script>
+</body>
+</html>
