@@ -434,6 +434,29 @@ function updateAutoFillButton() {
     }
 }
 
+// Check if a Pokemon is a starter
+function isStarter(pokemonId) {
+    if (!currentGame || !currentGame.encounters) return false;
+
+    // Check all encounter levels for this Pokemon
+    for (let badgeLevel in currentGame.encounters) {
+        const encounters = currentGame.encounters[badgeLevel];
+        const starterEncounter = encounters.find(enc =>
+            enc.pokemon === pokemonId && enc.method === 'Starter'
+        );
+        if (starterEncounter) return true;
+    }
+    return false;
+}
+
+// Check if team already has a starter Pokemon
+function teamHasStarter() {
+    return team.some(pokemonId => {
+        if (!pokemonId) return false;
+        return isStarter(pokemonId);
+    });
+}
+
 // Auto-Fill Team with Suggested Pokemon
 function autoFillTeam() {
     const emptySlotIndices = [];
@@ -450,6 +473,9 @@ function autoFillTeam() {
         pokemon.types.forEach(type => teamTypes.add(type));
     });
 
+    // Check if team already has a starter
+    const hasStarter = teamHasStarter();
+
     // Get next gym challenge
     const nextGym = currentGame ? currentGame.gyms.find(gym => !badges.includes(gym.id)) : null;
     const nextElite = currentGame && currentGame.eliteFour ?
@@ -462,6 +488,9 @@ function autoFillTeam() {
     availablePokemon.forEach(encounter => {
         // Skip if already on team or evolution is on team
         if (isPokemonOnTeam(encounter.pokemon)) return;
+
+        // Skip starters if team already has one
+        if (hasStarter && encounter.method === 'Starter') return;
 
         const pokemon = POKEMON_DATA[encounter.pokemon];
         let score = 0;
